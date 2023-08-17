@@ -1,0 +1,52 @@
+[
+	{
+		"type": "textbox",
+		"name": "name",
+		"label": "Name",
+		"required": true
+		
+	},
+	{
+		"type": "email",
+		"name": "email",
+		"label": "Email",
+		"hidden": false,
+		"required": true
+		
+	},
+	{
+		"type": "textbox",
+		"name": "phone",
+		"label": "Phone",
+		"required": true
+	
+	},
+	{
+		"type": "textbox",
+		"name": "age",
+		"label": "Age",
+		"hidden": false,
+		"options": [],
+		"required": true
+		
+	},
+	{
+		"type": "file",
+		"name": "photo",
+		"label": "Photo",
+		"hidden": false,
+		"options": [],
+		"required": true
+	
+	},
+	{
+		"type": "select",
+		"label": "Gender",
+		"name": "gender",
+		"options": [
+			{ "value": "male", "label": "Male" },
+			{ "value": "female", "label": "Female" },
+			{ "value": "other", "label": "Other" }
+		]
+	}
+]

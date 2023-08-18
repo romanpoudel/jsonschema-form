@@ -1,6 +1,6 @@
 [
 	{
-		"type": "textbox",
+		"type": "text",
 		"name": "name",
 		"label": "Name",
 		"required": true
@@ -15,14 +15,14 @@
 		
 	},
 	{
-		"type": "textbox",
+		"type": "text",
 		"name": "phone",
 		"label": "Phone",
 		"required": true
 	
 	},
 	{
-		"type": "textbox",
+		"type": "text",
 		"name": "age",
 		"label": "Age",
 		"hidden": false,
@@ -48,5 +48,15 @@
 			{ "value": "female", "label": "Female" },
 			{ "value": "other", "label": "Other" }
 		]
+	},
+	{
+		"type": "textarea",
+		"name": "message",
+		"label":"Message",
+		"hidden": false,
+		"rows":8,
+		"cols":30,
+		"required": true
+	
 	}
 ]

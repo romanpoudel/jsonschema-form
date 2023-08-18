@@ -15,15 +15,14 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-screen mx-auto">
-      <h2 className="text-4xl mb-8 font-semibold">JSON Schema Form</h2>
+    <div className="flex flex-col items-center  min-h-screen w-screen mx-auto">
+      <h2 className="text-4xl my-14 font-semibold">JSON Schema Form</h2>
       <form className="w-80" onSubmit={submit}>
         {data.map((field, index) => (
           <div key={index} className="mb-4">
             <label className="block mb-1">{field.label}</label>
             {field.type === "text" ||
             field.type === "number" ||
-            field.type === "textbox" ||
             field.type === "email" ||
             field.type === "file" ? (
               <input
@@ -47,7 +46,8 @@ function App() {
                   </option>
                 ))}
               </select>
-            ) : null}
+            ) : field.type==="textarea"?(<textarea name={field.name} rows={field.rows} cols={field.cols} className="w-full p-2 border rounded"/>
+            ):null}
           </div>
         ))}
         <button

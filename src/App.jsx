@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import data from "./data/data.json";
 
 function App() {
-	const [formData, setFormData] = useState({});
+  const initialFormData = {};
+  
+  // Populate initialFormData based on the fields in the JSON data
+  data.forEach((field) => {
+    initialFormData[field.name] = field.initialValue || "";
+  });
+	const [formData, setFormData] = useState(initialFormData);
 	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
 

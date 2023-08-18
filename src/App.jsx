@@ -15,16 +15,15 @@ function App() {
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormErrors(validate(formData));
 	};
-	// useEffect(() => {
-	// 	handleInputChange();
-	// }, []);
+	
 
 	const submit = (e) => {
 		e.preventDefault();
 		// Handle form submission logic here
 		console.log("formData", formData);
-		setFormErrors(validate(formData));
+		// setFormErrors(validate(formData));
 		setIsSubmit(true);
 	};
 	useEffect(() => {
@@ -34,40 +33,27 @@ function App() {
 		}
 	}, [formErrors, formData, isSubmit]);
 	const validate = (values) => {
-		const errors = {};
-		const email_regx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-		const phoneNumRegex = /^(?:\+977)?\d{10}$/;
-		if ("name" in values && !values.name) {
-			errors.name = "Name is required";
-		}
-		if ("email" in values && !values.email) {
-			errors.email = "Email is required";
-		} else if (!email_regx.test(values.email)) {
-			errors.email = "This is not a valid email format";
-		}
-		if ("phone" in values && !values.phone) {
-			errors.phone = "Phone is required";
-		} else if (!phoneNumRegex.test(values.phone)) {
-			errors.phone = "This is not a valid phone number";
-		}
-		if ("age" in values && !values.age) {
-			errors.age = "Age is required";
-		}
-		if ("gender" in values && !values.gender) {
-			errors.gender = "Gender is required";
-		}
-		if ("file" in values && !values.file) {
-			errors.file = "File is required";
-		}
-		if ("message" in values && !values.message) {
-			errors.message = "Message is required";
-		}
+    const errors = {};
+    const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const phoneNumRegex = /^(?:\+977)?\d{10}$/;
+    const requiredFields = ['name', 'email', 'phone', 'age', 'gender', 'file', 'message'];
+    requiredFields.forEach(field => {
+        if (!(field in values) || !values[field]) {
+            errors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+        }
+    });
+    if ('email' in values && !emailRegx.test(values.email)) {
+        errors.email = 'This is not a valid email format';
+    }
+    if ('phone' in values && !phoneNumRegex.test(values.phone)) {
+        errors.phone = 'This is not a valid phone number';
+    }
 		return errors;
 	};
 	return (
 		<div className="flex flex-col items-center  min-h-screen w-screen mx-auto">
 			<h2 className="text-4xl my-14 font-semibold">JSON Schema Form</h2>
-			{Object.keys(formErrors).length === 0 && isSubmit ? (
+			{/* {Object.keys(formErrors).length === 0 && isSubmit ? (
 				<div className="bg-green-500 text-white p-2 rounded">
 					Form Submitted Successfully
 				</div>
@@ -75,7 +61,7 @@ function App() {
 				<div className="bg-red-500 text-white p-2 rounded">
 					Submission Failed!
 				</div>
-			) : null}
+			) : null} */}
 			<form className="w-80" onSubmit={submit} noValidate>
 				{data.map((field, index) => (
 					<div key={index} className="mb-4">

@@ -3,41 +3,41 @@
 		"type": "text",
 		"name": "name",
 		"label": "Name",
+		"maxLength": 30,
 		"required": true
-		
 	},
 	{
 		"type": "email",
 		"name": "email",
 		"label": "Email",
+		"minLength": 10,
+		"maxLength": 25,
 		"hidden": false,
 		"required": true
-		
 	},
 	{
-		"type": "text",
+		"type": "tel",
 		"name": "phone",
 		"label": "Phone",
+		"minLength": 8,
+		"maxLength": 20,
 		"required": true
-	
 	},
 	{
-		"type": "text",
+		"type": "number",
 		"name": "age",
 		"label": "Age",
 		"hidden": false,
-		"options": [],
+		"min": 0,
+		"max": 120,
 		"required": true
-		
 	},
 	{
 		"type": "file",
-		"name": "photo",
+		"name": "file",
 		"label": "Photo",
-		"hidden": false,
-		"options": [],
+		"multiple":false,
 		"required": true
-	
 	},
 	{
 		"type": "select",
@@ -52,11 +52,10 @@
 	{
 		"type": "textarea",
 		"name": "message",
-		"label":"Message",
+		"label": "Message",
 		"hidden": false,
-		"rows":8,
-		"cols":30,
+		"rows": 8,
+		"cols": 30,
 		"required": true
-	
 	}
 ]

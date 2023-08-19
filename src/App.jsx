@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import data from "./data/data.json";
 
 function App() {
-  const initialFormData = {};
-  
-  // Populate initialFormData based on the fields in the JSON data
-  data.forEach((field) => {
-    initialFormData[field.name] = field.initialValue || "";
-  });
+	const initialFormData = {};
+
+	// Populate initialFormData based on the fields in the JSON data
+	data.forEach((field) => {
+		initialFormData[field.name] = field.initialValue || "";
+	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [formErrors, setFormErrors] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
@@ -15,9 +15,8 @@ function App() {
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setFormErrors(validate(formData));
+		setFormErrors(validate(formData));
 	};
-	
 
 	const submit = (e) => {
 		e.preventDefault();
@@ -33,27 +32,30 @@ function App() {
 		}
 	}, [formErrors, formData, isSubmit]);
 	const validate = (values) => {
-    const errors = {};
-    const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const phoneNumRegex = /^(?:\+977)?\d{10}$/;
-    const requiredFields = ['name', 'email', 'phone', 'age', 'gender', 'file', 'message'];
-    requiredFields.forEach(field => {
-        if (!(field in values) || !values[field]) {
-            errors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
-        }
-    });
-    if ('email' in values && !emailRegx.test(values.email)) {
-        errors.email = 'This is not a valid email format';
-    }
-    if ('phone' in values && !phoneNumRegex.test(values.phone)) {
-        errors.phone = 'This is not a valid phone number';
-    }
+		const errors = {};
+		const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+		const phoneNumRegex = /^(?:\+977)?\d{10}$/;
+		// const requiredFields = ['name', 'email', 'phone', 'age', 'gender', 'file', 'message'];
+		const requiredFields = Object.keys(initialFormData);
+		requiredFields.forEach((field) => {
+			if (!(field in values) || !values[field]) {
+				errors[field] = `${
+					field.charAt(0).toUpperCase() + field.slice(1)
+				} is required`;
+			}
+		});
+		if ("email" in values && !emailRegx.test(values.email)) {
+			errors.email = "This is not a valid email format";
+		}
+		if ("phone" in values && !phoneNumRegex.test(values.phone)) {
+			errors.phone = "This is not a valid phone number";
+		}
 		return errors;
 	};
 	return (
 		<div className="flex flex-col items-center  min-h-screen w-screen mx-auto">
 			<h2 className="text-4xl my-14 font-semibold">JSON Schema Form</h2>
-			{/* {Object.keys(formErrors).length === 0 && isSubmit ? (
+			{Object.keys(formErrors).length === 0 && isSubmit ? (
 				<div className="bg-green-500 text-white p-2 rounded">
 					Form Submitted Successfully
 				</div>
@@ -61,7 +63,7 @@ function App() {
 				<div className="bg-red-500 text-white p-2 rounded">
 					Submission Failed!
 				</div>
-			) : null} */}
+			) : null}
 			<form className="w-80" onSubmit={submit} noValidate>
 				{data.map((field, index) => (
 					<div key={index} className="mb-4">
@@ -73,7 +75,7 @@ function App() {
 									name={field.name}
 									value={formData[field.name] || ""}
 									onChange={handleInputChange}
-									maxLength={field.maxLength}
+									// maxLength={field.maxLength}
 									className="w-full p-2 border rounded"
 								/>
 								<p className="text-red-500">
@@ -113,9 +115,10 @@ function App() {
 									type={field.type}
 									name={field.name}
 									value={formData[field.name] || ""}
-									minLength={field.minLength}
-									maxLength={field.maxLength}
-									pattern="[0-9]*"
+									//correction
+									// minLength={field.minLength}
+									// maxLength={field.maxLength}
+									// pattern="[0-9]*"
 									onChange={handleInputChange}
 									className="w-full p-2 border rounded"
 								/>
@@ -129,8 +132,9 @@ function App() {
 									type={field.type}
 									name={field.name}
 									value={formData[field.name] || ""}
-									min={field.min}
-									max={field.max}
+									//correction req
+									// min={field.min}
+									// max={field.max}
 									onChange={handleInputChange}
 									className="w-full p-2 border rounded"
 								/>

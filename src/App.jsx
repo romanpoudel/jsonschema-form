@@ -6,7 +6,7 @@ function App() {
 
 	// Populate initialFormData based on the fields in the JSON data
 	data.forEach((field) => {
-		initialFormData[field.name] = field.initialValue || "";
+		initialFormData[field.name] = field.initialValue || null;
 	});
 	const [formData, setFormData] = useState(initialFormData);
 	const [formErrors, setFormErrors] = useState({});
@@ -14,8 +14,12 @@ function App() {
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
+		const field = data.find((field) => field.name === name);
+		if (field && field.maxLength && value.length > field.maxLength) {
+			return; // Do not update state if maxLength exceeded
+		}
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
-		setFormErrors(validate(formData));
+		setFormErrors(validate({ ...formData, [name]: value }, false));
 	};
 
 	const submit = (e) => {
@@ -23,7 +27,11 @@ function App() {
 		// Handle form submission logic here
 		console.log("formData", formData);
 		// setFormErrors(validate(formData));
-		setIsSubmit(true);
+		const errors = validate(formData, true);
+		setFormErrors(errors);
+		if (Object.keys(errors).length === 0) {
+			setIsSubmit(true);
+		}
 	};
 	useEffect(() => {
 		console.log("Errors", formErrors);
@@ -31,30 +39,41 @@ function App() {
 			console.log("validated", formData);
 		}
 	}, [formErrors, formData, isSubmit]);
-	const validate = (values) => {
+	const validate = (values, isSubmit = false) => {
 		const errors = {};
 		const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 		const phoneNumRegex = /^(?:\+977)?\d{10}$/;
 		// const requiredFields = ['name', 'email', 'phone', 'age', 'gender', 'file', 'message'];
 		const requiredFields = Object.keys(initialFormData);
 		requiredFields.forEach((field) => {
-			if (!(field in values) || !values[field]) {
+			if ((isSubmit && !values[field]) || values[field] === "") {
 				errors[field] = `${
 					field.charAt(0).toUpperCase() + field.slice(1)
 				} is required`;
 			}
 		});
-		if ("email" in values && !emailRegx.test(values.email)) {
+		// Validate maxLength
+		data.forEach((field) => {
+			if (
+				field.minLength &&
+				values[field.name]?.length < field.minLength
+			) {
+				errors[
+					field.name
+				] = `${field.label} cannot be less than ${field.minLength} characters`;
+			}
+		});
+		if (values.email !== null && !emailRegx.test(values.email)) {
 			errors.email = "This is not a valid email format";
 		}
-		if ("phone" in values && !phoneNumRegex.test(values.phone)) {
+		if (values.phone !== null && !phoneNumRegex.test(values.phone)) {
 			errors.phone = "This is not a valid phone number";
 		}
 		return errors;
 	};
 	return (
 		<div className="flex flex-col items-center  min-h-screen w-screen mx-auto">
-			<h2 className="text-4xl my-14 font-semibold">JSON Schema Form</h2>
+			<h2 className="text-4xl  font-semibold">JSON Schema Form</h2>
 			{Object.keys(formErrors).length === 0 && isSubmit ? (
 				<div className="bg-green-500 text-white p-2 rounded">
 					Form Submitted Successfully

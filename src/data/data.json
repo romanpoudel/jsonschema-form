@@ -3,6 +3,7 @@
 		"type": "text",
 		"name": "name",
 		"label": "Name",
+		"minLength":5,
 		"maxLength": 30,
 		"required": true
 	},

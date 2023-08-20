@@ -140,7 +140,7 @@ const App1 = () => {
 			<form className="w-80" onSubmit={handleSubmit} noValidate>
 				{data.map((field, index) => (
 					<div key={index} className="mb-4">
-						<label className="block mb-1">{field.label}</label>
+						<label className="block mb-1">{field.label} {field.required && <span className="text-red-500">*</span>}</label>
 						{field.type === "text" ? (
 							<>
 								<input
@@ -262,7 +262,7 @@ const App1 = () => {
 					</div>
 				))}
 				<p className="mb-2 text-center">
-					Note*: You need to fill all fields to Submit{" "}
+					Note*: Fill all required fields to Submit
 				</p>
 				<button
 					type="submit"

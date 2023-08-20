@@ -4,13 +4,15 @@
 		"name": "name",
 		"label": "Name",
 		"minLength":5,
-		"maxLength": 30
+		"maxLength": 30,
+		"required":true
 	},
 	{
 		"type": "text",
 		"name": "lastname",
 		"label": "Last Name",
-		"minLength":5
+		"minLength":5,
+		"required":true
 	},
 	{
 		"type": "email",
@@ -18,14 +20,16 @@
 		"label": "Email",
 		"minLength": 10,
 		"maxLength": 25,
-		"hidden": false
+		"hidden": false,
+		"required":true
 	},
 	{
 		"type": "tel",
 		"name": "phone",
 		"label": "Phone",
 		"minLength": 8,
-		"maxLength": 20
+		"maxLength": 20,
+		"required":false
 	},
 	{
 		"type": "number",
@@ -33,13 +37,15 @@
 		"label": "Age",
 		"hidden": false,
 		"min": 0,
-		"max": 120
+		"max": 120,
+		"required":false
 	},
 	{
 		"type": "file",
 		"name": "file",
 		"label": "Photo",
-		"multiple":false
+		"multiple":false,
+		"required":false
 	},
 	{
 		"type": "select",
@@ -49,7 +55,8 @@
 			{ "value": "male", "label": "Male" },
 			{ "value": "female", "label": "Female" },
 			{ "value": "other", "label": "Other" }
-		]
+		],
+		"required":true
 	},
 	{
 		"type": "textarea",
@@ -57,6 +64,7 @@
 		"label": "Message",
 		"hidden": false,
 		"rows": 8,
-		"cols": 30
+		"cols": 30,
+		"required":false
 	}
 ]

@@ -21,59 +21,86 @@ const App1 = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(formData);
-        console.log("Submitted")
-        alert("Form Submitted")
-        setFormData(initialFormData)
+		console.log("Submitted");
+		alert("Form Submitted");
+		setFormData(initialFormData);
 	};
-const validation=(fieldName)=>{
-    const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+	const validation = (fieldName) => {
+		const emailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 		const phoneNumRegex = /^(?:\+977)?\d{10}$/;
-    data.map((field) => {
-        if (field.name === fieldName) {
-            if (!formData[fieldName] ||formData[fieldName] === "") {
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: false,message:"Can't be empty" },
-                }));
-            } else {
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: true,message:"validated" },
-                }));
-            }
-            //for pattern checking
-            if (formData.email !== null && !emailRegx.test(formData.email)) {
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: false,message:"This is not a valid email" },
-                }));
-            }
-            if (formData.phone !== null && !phoneNumRegex.test(formData.phone)) {
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: false,message:"This is not a valid phone number" },
-                }));
-            }
-            //for maxLength
-            if(field.maxLength &&formData[fieldName]?.length>field.maxLength){
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: false,message:"Length greater than maxLength" },
-                }));
-            }
-            //for minLength
-            if(field.minLength &&formData[fieldName]?.length<field.minLength){
-                setFields((prev) => ({
-                    ...prev,
-                    [fieldName]: { validated: false,message:"Length less than minLength" },
-                }));
-            }
-        }
-    });
-}
+		data.map((field) => {
+			if (field.name === fieldName) {
+				if (!formData[fieldName] || formData[fieldName] === "") {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: {
+							validated: false,
+							message: "Can't be empty",
+						},
+					}));
+				} else {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: { validated: true, message: "validated" },
+					}));
+				}
+				//for pattern checking
+				if (
+					formData.email !== null &&
+					!emailRegx.test(formData.email)
+				) {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: {
+							validated: false,
+							message: "This is not a valid email",
+						},
+					}));
+				}
+				if (
+					formData.phone !== null &&
+					!phoneNumRegex.test(formData.phone)
+				) {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: {
+							validated: false,
+							message: "This is not a valid phone number",
+						},
+					}));
+				}
+				//for maxLength
+				if (
+					field.maxLength &&
+					formData[fieldName]?.length > field.maxLength
+				) {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: {
+							validated: false,
+							message: "Length greater than maxLength",
+						},
+					}));
+				}
+				//for minLength
+				if (
+					field.minLength &&
+					formData[fieldName]?.length < field.minLength
+				) {
+					setFields((prev) => ({
+						...prev,
+						[fieldName]: {
+							validated: false,
+							message: "Length less than minLength",
+						},
+					}));
+				}
+			}
+		});
+	};
 	const handleBlur = (fieldName) => {
 		setFocusedInput(fieldName);
-        validation(fieldName)
+		validation(fieldName);
 	};
 	const handleFocus = (fieldName) => {
 		setFields((prev) => ({
@@ -88,6 +115,23 @@ const validation=(fieldName)=>{
 		console.log(fields);
 		// console.log(formErrors);
 	}, [focusedInput, fields]);
+
+	const checkRequired = () => {
+		return data.some((field) => {
+			let isFieldEmpty;
+			if (field.required) {
+				if (
+					formData[field.name] === null ||
+					formData[field.name] === ""
+				) {
+					isFieldEmpty = true;
+				} else {
+					isFieldEmpty = false;
+				}
+			}
+			return isFieldEmpty;
+		});
+	};
 
 	return (
 		<div className="flex flex-col items-center  min-h-screen w-screen mx-auto">
@@ -108,7 +152,10 @@ const validation=(fieldName)=>{
 									onFocus={() => handleFocus(field.name)}
 									className="w-full p-2 border rounded"
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "file" ? (
 							<>
@@ -121,7 +168,10 @@ const validation=(fieldName)=>{
 									onBlur={() => handleBlur(field.name)}
 									className="w-full p-2 border rounded"
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "email" ? (
 							<>
@@ -133,7 +183,10 @@ const validation=(fieldName)=>{
 									onBlur={() => handleBlur(field.name)}
 									className="w-full p-2 border rounded"
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "tel" ? (
 							<>
@@ -145,7 +198,10 @@ const validation=(fieldName)=>{
 									onBlur={() => handleBlur(field.name)}
 									className="w-full p-2 border rounded"
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "number" ? (
 							<>
@@ -157,7 +213,10 @@ const validation=(fieldName)=>{
 									onBlur={() => handleBlur(field.name)}
 									className="w-full p-2 border rounded"
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "select" ? (
 							<>
@@ -178,7 +237,10 @@ const validation=(fieldName)=>{
 										</option>
 									))}
 								</select>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : field.type === "textarea" ? (
 							<>
@@ -191,16 +253,21 @@ const validation=(fieldName)=>{
 									onChange={handleInputChange}
 									onBlur={() => handleBlur(field.name)}
 								/>
-                                <p className="text-red-500">{!fields[field.name]?.validated && fields[field.name]?.message}</p>
+								<p className="text-red-500">
+									{!fields[field.name]?.validated &&
+										fields[field.name]?.message}
+								</p>
 							</>
 						) : null}
 					</div>
 				))}
-                <p className="mb-2 text-center">Note*: You need to fill all fields to Submit </p>
+				<p className="mb-2 text-center">
+					Note*: You need to fill all fields to Submit{" "}
+				</p>
 				<button
 					type="submit"
 					className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    disabled={Object.values(formData).some((value) => value === null || value === '')}
+					disabled={checkRequired()}
 				>
 					Submit
 				</button>

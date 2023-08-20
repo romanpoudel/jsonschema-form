@@ -262,7 +262,7 @@ const App1 = () => {
 					</div>
 				))}
 				<p className="mb-2 text-center">
-					Note*: Fill all required fields to Submit
+					Note: Fill all required <span className="text-red-500">*</span> fields to Submit
 				</p>
 				<button
 					type="submit"

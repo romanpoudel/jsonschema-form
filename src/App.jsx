@@ -21,7 +21,6 @@ function App() {
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 		setFormErrors(validate({ ...formData, [name]: value }, false));
 	};
-
 	const submit = (e) => {
 		e.preventDefault();
 		// Handle form submission logic here
